@@ -1,6 +1,5 @@
 * {
   font-family: "Lobster", cursive;
-  margin: 0;
 }
 header {
   background-color: #505050;
@@ -20,7 +19,6 @@ header {
 
 body {
   font-family: "Open Sans", sans-serif; /*Font txt*/
-  display: inline;
 }
 
 nav ul {
@@ -282,8 +280,8 @@ footer img {
 
 @media screen and (max-width: 960px) {
   /*Responsive*/
-
   #box,
+  header,
   body {
     width: 100vh;
   }
