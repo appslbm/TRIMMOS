@@ -59,6 +59,7 @@ main {
 
 .main {
   margin: 30px 2em;
+  font-size: 20px;
 }
 
 .title_main {
@@ -69,7 +70,7 @@ main {
 }
 
 #cut {
-  width: 180px;
+  width: 300px;
   float: left; /*go up and create a shadow*/
   margin: 0 10px 0px 0px; /*top right bottom left*/
 }
@@ -146,7 +147,7 @@ h2 {
   font-size: 35px;
 }
 
-.product-description {
+.services-description {
   font-size: 20px;
 }
 
