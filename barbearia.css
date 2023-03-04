@@ -19,6 +19,7 @@ header {
 
 body {
   font-family: "Open Sans", sans-serif; /*Font txt*/
+  margin: 0;
 }
 
 nav ul {
