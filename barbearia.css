@@ -1,5 +1,6 @@
 * {
   font-family: "Lobster", cursive;
+  margin: 0;
 }
 header {
   background-color: #505050;
@@ -281,9 +282,12 @@ footer img {
 @media screen and (max-width: 960px) {
   /*Responsive*/
   #box,
-  header,
   body {
     width: 100vh;
+  }
+
+  body {
+    display: inline;
   }
 
   @media screen and (max-width: 960px) {
