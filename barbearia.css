@@ -20,6 +20,7 @@ header {
 
 body {
   font-family: "Open Sans", sans-serif; /*Font txt*/
+  display: inline;
 }
 
 nav ul {
@@ -281,13 +282,10 @@ footer img {
 
 @media screen and (max-width: 960px) {
   /*Responsive*/
+
   #box,
   body {
     width: 100vh;
-  }
-
-  body {
-    display: inline;
   }
 
   @media screen and (max-width: 960px) {
