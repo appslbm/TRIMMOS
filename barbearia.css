@@ -186,6 +186,7 @@ h2 {
 
 .benefits li {
   padding: 5px;
+  list-style: none;
 }
 
 .benefits li:before {
