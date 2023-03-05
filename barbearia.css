@@ -305,7 +305,9 @@ footer img {
 
     nav ul {
       position: static;
+      padding: 0;
     }
+
     #box,
     .benefits,
     #four {
