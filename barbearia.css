@@ -1,5 +1,5 @@
 * {
-  font-family: "Lobster", cursive;
+  font-family: "Oswald", sans-serif;
   margin: 0;
 }
 header {
@@ -133,6 +133,10 @@ main {
 .services li:active {
   /*change behavior when the mouse do click*/
   border-color: #339900;
+}
+
+a {
+  text-decoration: none;
 }
 
 h2 {
