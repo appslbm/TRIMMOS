@@ -3,7 +3,7 @@
   margin: 0;
 }
 header {
-  background-color: #505050;
+  background: url("imgs/bg.jpg");
   padding: 20px 0px; /*space around element inside borders*/
   transition: 0.5s;
 }
@@ -43,7 +43,7 @@ nav a:hover {
 nav a {
   text-transform: uppercase;
   font-weight: bold;
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none; /*default link design off*/
   font-size: 22px;
 }
@@ -244,6 +244,7 @@ h6 {
   width: 100px;
   margin-bottom: 15px;
 }
+
 .avaliações {
   margin-right: auto;
   margin-left: auto;
@@ -322,7 +323,7 @@ footer img {
 }
 
 .sublogo {
-  color: #090714;
+  color: #ffffff;
   font-family: "Dancing Script", cursive;
   font-size: 25px;
 }
