@@ -196,3 +196,72 @@ footer {
     left: 0;
   }
 }
+
+
+
+
+:root {
+  --gradient-shadow: linear-gradient(
+    45deg,
+   
+    #0000ff,
+   
+    #ff0000,
+   
+    #0000ff,
+   
+    #ff0000
+  );
+  
+}
+.cores {
+  margin: 0;
+  padding: 0;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.shadow {
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(0deg, #000000, #262626);
+}
+.shadow::before,
+.shadow::after {
+  border-radius: 50px;
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background: var(--gradient-shadow);
+  background-size: 400%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: -1;
+  animation: animate 20s linear infinite;
+}
+.shadow::after {
+  filter: blur(10px);
+}
+@keyframes animate {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
