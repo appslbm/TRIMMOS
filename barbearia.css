@@ -219,13 +219,33 @@ h5 {
 h6 {
   font-size: 16px;
 }
+
+.cards {
+  display: flex;
+  overflow-x: scroll;
+  padding: 24px;
+  width: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 24px;
+  border-radius: 8px;
+  gap: 12px;
+}
+.card {
+  max-width: 250px;
+}
+.cards .card {
+  flex: 0 0 100%;
+  padding: 24px;
+  border-radius: 8px;
+  scroll-snap-align: start;
+  text-align: center;
+}
+
 .avaliação {
   margin-top: 20px;
   text-align: center;
 }
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   max-width: 980px;
   margin: 0 auto;
   grid-gap: 40px;
@@ -408,8 +428,6 @@ footer img {
     }
 
     .cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
       max-width: auto;
       margin: 0 auto;
       grid-gap: 20px;
