@@ -16,7 +16,9 @@ header {
 
 #box h1 img {
   width: 15em;
+  
 }
+
 
 body {
   font-family: "Open Sans", sans-serif; /*Font txt*/
@@ -27,11 +29,16 @@ nav ul {
   position: absolute; /*initial point reference position with full page*/
   top: 110px; /*distance of top*/
   right: 80px;
+  
 }
 
 nav li {
   display: inline;
   margin: 0 0 0 15px; /*Extern space*/
+  
+}
+.sublogo {
+  text-shadow: 10px 10px 10px #000000;
 }
 
 nav a:hover {
