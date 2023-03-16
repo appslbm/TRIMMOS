@@ -265,7 +265,7 @@ h6 {
   margin-bottom: 15px;
 }
 
-/*test botao liquid*/
+/* inicio test botao liquid*/
 
 .botao {
   display: flex;
@@ -348,7 +348,7 @@ h6 {
 
 
 
-/*test botao liquid*/
+/*fim test botao liquid*/
 
 .avaliações {
   margin-right: auto;
@@ -393,10 +393,10 @@ footer img {
   -webkit-text-stroke-color: rgb(255, 0, 0);
   text-shadow: 5px 5px 5px rgba(20, 54, 207, 0.7);
   position: fixed;
-  width: 200px;
+  width: 165px;
   height: 100px;
   bottom: 7px;
-  right: -98px;
+  right: -48px;
   z-index: 1000;
   font-family: "arial", cursive;
 }
@@ -410,12 +410,47 @@ footer img {
   text-shadow: 5px 5px 5px rgba(255, 0, 0, 0.7);
   color: rgb(255, 255, 255);
   position: fixed;
-  width: 201px;
+  width: 165px;
   height: 100px;
   bottom: 9px;
   right: -48px;
   z-index: 1000;
 }
+
+
+
+button {
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.637);
+  color: black;
+  width: 111px;
+  height: 111px;
+  opacity: 0.75;
+  border: 3px solid #001eff;
+  border-radius: 50px;
+  cursor: pointer;
+  animation: bounce_513 1s infinite;
+}
+
+@keyframes bounce_513 {
+  0%,
+    100% {
+    transform: translateY(-10%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+
+
+
+
+
+
 
 .instagram {
   background-image: url("./imgs/insta.png");
