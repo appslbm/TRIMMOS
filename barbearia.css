@@ -3,7 +3,7 @@
   margin: 0;
 }
 header {
-  background: url("imgs/bg.jpg");
+  background: url("imgs/bg.png");
   padding: 20px 0px; /*space around element inside borders*/
   transition: 0.5s;
 }
@@ -376,7 +376,7 @@ h6 {
 
 footer {
   text-align: center;
-  background: url("imgs/bg.jpg");
+  background: url("imgs/bg.png");
   line-height: 2;
   margin-top: -5px;
   padding: 24px;
