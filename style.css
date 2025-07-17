@@ -207,13 +207,13 @@ footer {
   --gradient-shadow: linear-gradient(
     45deg,
    
-    #0000ff,
+    #ff9500,
    
-    #ff0000,
+    #fcfafa,
    
-    #0000ff,
+    #ff9500,
    
-    #ff0000
+    #fcfafa
   );
   
 }
