@@ -433,7 +433,7 @@ button {
   width: 108px;
   height: 108px;
   border: 2px solid #f79602;
-  border-radius: 50px;
+  border-radius: 1px;
   cursor: pointer;
   animation: bounce_513 1s infinite;
   box-shadow: 6px 6px 10px #000000;
