@@ -432,7 +432,7 @@ button {
   color: rgb(247, 150, 2);
   width: 108px;
   height: 108px;
-  border: 2px solid #001eff;
+  border: 2px solid #f79602;
   border-radius: 50px;
   cursor: pointer;
   animation: bounce_513 1s infinite;
