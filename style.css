@@ -174,7 +174,7 @@ footer {
 }
 @media (min-width: 700px) {
   :root {
-    --bg-url: url(./img/bg.desktopn.png);
+    --bg-url: url(./img/bg.desktopb.png);
   }
   .light {
     --bg-url: url(./img/bg.desktoplight.jpg);
