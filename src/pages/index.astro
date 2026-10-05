@@ -1,0 +1,240 @@
+---
+/**
+ * Página de links ("link na bio") — porta de entrada de quem vem do Instagram.
+ * URL preservada: /index.html (raiz do site).
+ */
+import { Image } from 'astro:assets';
+import Icon from '../components/Icon.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import Base from '../layouts/Base.astro';
+import { asset, fullAddress, hoursOneLine, linkMeta, links, site } from '../lib/site';
+
+const items = site.linkPage.items
+  .map((key) => ({ key, ...linkMeta[key] }))
+  .filter((item) => item.href);
+const year = new Date().getFullYear();
+---
+
+<Base
+  title={site.seo.linksTitle}
+  description={site.seo.description}
+  canonicalPath=""
+  bodyClass="links-page"
+>
+  <main class="links">
+    <header class="links__head">
+      <Image
+        src={asset(site.images.logo)}
+        alt={site.images.logoAlt}
+        width={112}
+        height={112}
+        densities={[1, 2]}
+        loading="eager"
+        class="links__logo"
+      />
+      <h1 class="links__name">{site.business.name}</h1>
+      <p class="links__tagline">{site.business.tagline}</p>
+      <OpenStatus />
+    </header>
+
+    <nav aria-label="Links principais">
+      <ul class="links__list" role="list">
+        {
+          items.map((item, i) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['link-btn', { 'link-btn--primary': i === 0 }]}
+                {...(item.external && { target: '_blank', rel: 'noopener' })}
+              >
+                <Icon name={item.icon} class="link-btn__icon" />
+                <span class="link-btn__label">{item.label}</span>
+                <Icon name="arrow" class="link-btn__arrow" />
+              </a>
+            </li>
+          ))
+        }
+        {
+          site.linkPage.extra.map((item) => (
+            <li>
+              <a href={item.url} class="link-btn" target="_blank" rel="noopener">
+                <Icon name="external" class="link-btn__icon" />
+                <span class="link-btn__label">{item.label}</span>
+                <Icon name="arrow" class="link-btn__arrow" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <footer class="links__foot">
+      <a href={links.directions} target="_blank" rel="noopener" class="links__address">
+        <Icon name="pin" />
+        <span>{fullAddress}</span>
+      </a>
+      {
+        hoursOneLine() && (
+          <p class="links__hours">
+            <Icon name="clock" />
+            <span>{hoursOneLine()}</span>
+          </p>
+        )
+      }
+      <p class="links__credit">
+        © {year} {site.business.name}
+        {site.credit && <span> · {site.credit.url ? <a href={site.credit.url}>{site.credit.text}</a> : site.credit.text}</span>}
+      </p>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  .links {
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+    padding: max(2.5rem, env(safe-area-inset-top)) var(--gutter) max(2rem, env(safe-area-inset-bottom));
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .links__head {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--sp-2);
+  }
+
+  .links__logo {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    margin-bottom: var(--sp-3);
+  }
+
+  .links__name {
+    font-size: clamp(1.875rem, 1.5rem + 2vw, 2.25rem);
+  }
+
+  .links__tagline {
+    color: var(--muted);
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-1);
+  }
+
+  .links__list {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    min-height: 3.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .link-btn:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
+
+  .link-btn__label {
+    flex: 1;
+  }
+
+  .link-btn__icon {
+    width: 1.375rem;
+    height: 1.375rem;
+    color: var(--accent);
+  }
+
+  .link-btn :global(.icon-whatsapp) {
+    color: var(--whatsapp);
+  }
+
+  .link-btn__arrow {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--muted);
+    transition: transform 0.15s ease;
+  }
+
+  .link-btn:hover .link-btn__arrow {
+    transform: translateX(3px);
+  }
+
+  .link-btn--primary {
+    min-height: 4rem;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+  }
+
+  .link-btn--primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .link-btn--primary .link-btn__icon,
+  .link-btn--primary .link-btn__arrow {
+    color: var(--on-accent);
+  }
+
+  .links__foot {
+    display: grid;
+    gap: var(--sp-3);
+    justify-items: center;
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .links__address,
+  .links__hours {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5em;
+    text-align: left;
+    color: var(--muted);
+  }
+
+  .links__address {
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+  }
+
+  .links__address:hover {
+    color: var(--text);
+  }
+
+  .links__address .icon,
+  .links__hours .icon {
+    margin-top: 0.15em;
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .links__credit {
+    margin-top: var(--sp-3);
+    font-size: var(--fs-xs);
+  }
+</style>

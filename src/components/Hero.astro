@@ -1,0 +1,219 @@
+---
+import { Image, Picture } from 'astro:assets';
+import { asset, formatRating, hoursOneLine, links, primaryRating, site } from '../lib/site';
+import Icon from './Icon.astro';
+import OpenStatus from './OpenStatus.astro';
+
+const { business, location: loc } = site;
+const hero = asset(site.images.hero);
+const ratingHref = primaryRating?.url ?? links.reviews;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <Picture
+      src={hero}
+      alt={site.images.heroAlt}
+      formats={['avif', 'webp']}
+      widths={[480, 768, Math.min(1080, hero.width)]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="hero__img"
+      style={`object-position: ${site.images.heroPosition}`}
+    />
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <Image
+        src={asset(site.images.logo)}
+        alt={site.images.logoAlt}
+        width={72}
+        height={72}
+        densities={[1, 2]}
+        loading="eager"
+        class="hero__logo"
+      />
+      <p class="eyebrow">Barbearia em {loc.city}</p>
+      <h1 id="hero-title">{business.name}</h1>
+      <p class="hero__tagline">{business.tagline}</p>
+
+      <div class="hero__actions" data-hero-actions>
+        <a href={links.booking} class="btn btn--primary btn--lg" target="_blank" rel="noopener">
+          <Icon name="calendar" />
+          {site.booking.label}
+        </a>
+        <a href={links.whatsapp} class="btn btn--secondary btn--lg" target="_blank" rel="noopener">
+          <Icon name="whatsapp" />
+          Agendar pelo WhatsApp
+        </a>
+      </div>
+
+      <ul class="hero__facts" role="list">
+        {
+          primaryRating && (
+            <li>
+              <a href={ratingHref} target="_blank" rel="noopener">
+                <Icon name="star" class="hero__star" />
+                <strong>{formatRating(primaryRating.value)}</strong>
+                {primaryRating.count ? ` · ${primaryRating.count} avaliações` : ''} no {primaryRating.source}
+              </a>
+            </li>
+          )
+        }
+        <li>
+          <a href="#localizacao">
+            <Icon name="pin" />
+            {loc.neighborhood}, {loc.city}
+          </a>
+        </li>
+        {
+          hoursOneLine() && (
+            <li>
+              <Icon name="clock" />
+              {hoursOneLine()}
+            </li>
+          )
+        }
+      </ul>
+      <OpenStatus class="hero__status" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* Celular: foto no topo, texto por cima da parte inferior escurecida */
+  .hero__media {
+    position: absolute;
+    inset: 0 0 auto;
+    height: min(62vh, 30rem);
+    z-index: -1;
+  }
+
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--bg) 40%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 78%, transparent) 50%,
+      var(--bg) 92%
+    );
+  }
+
+  .hero__media :global(picture),
+  .hero__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__img {
+    object-fit: cover;
+  }
+
+  .hero__inner {
+    padding-top: clamp(7rem, 25vh, 15rem);
+    padding-bottom: var(--sp-6);
+  }
+
+  .hero__content {
+    display: grid;
+    gap: var(--sp-4);
+    max-width: 34rem;
+  }
+
+  .hero__logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    margin-bottom: var(--sp-2);
+  }
+
+  .hero__tagline {
+    font-size: var(--fs-lg);
+    color: var(--muted);
+    max-width: 30rem;
+  }
+
+  .hero__actions {
+    display: grid;
+    gap: var(--sp-3);
+    margin-top: var(--sp-2);
+  }
+
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sp-5);
+    margin-top: var(--sp-1);
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .hero__facts li,
+  .hero__facts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+  }
+
+  .hero__facts li {
+    min-height: 2.75rem;
+  }
+
+  .hero__facts a {
+    min-height: 2.75rem;
+    text-decoration: none;
+  }
+
+  .hero__facts a:hover {
+    color: var(--text);
+  }
+
+  .hero__facts strong {
+    color: var(--text);
+  }
+
+  .hero__facts .icon {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  .hero__facts :global(.hero__star) {
+    color: var(--accent);
+  }
+
+  @media (min-width: 30rem) {
+    .hero__actions {
+      grid-template-columns: repeat(2, max-content);
+    }
+  }
+
+  /* Desktop: duas colunas, foto à direita sem ampliar além do tamanho original */
+  @media (min-width: 60rem) {
+    .hero__media {
+      inset: 0 0 0 50%;
+      height: auto;
+    }
+
+    .hero__media::after {
+      background: linear-gradient(to right, var(--bg) 0%, color-mix(in oklab, var(--bg) 20%, transparent) 45%);
+    }
+
+    .hero__inner {
+      min-height: min(72vh, 36rem);
+      display: flex;
+      align-items: center;
+      padding-block: var(--sp-8);
+    }
+  }
+</style>

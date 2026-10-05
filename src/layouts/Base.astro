@@ -1,0 +1,125 @@
+---
+import '@fontsource-variable/oswald/wght.css';
+import oswaldLatin from '@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2?url';
+import { getImage } from 'astro:assets';
+import '../styles/global.css';
+import { absolute, asset, dayOrder, links, priceRange, site } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Caminho da página para o canonical, ex.: "inicio.html" ou "" (raiz). */
+  canonicalPath: string;
+  bodyClass?: string;
+  noindex?: boolean;
+}
+
+const { title, description, canonicalPath, bodyClass } = Astro.props;
+// Versão de demonstração (PREVIEW=true no deploy): nunca indexar, para não concorrer com o site oficial.
+const noindex = Astro.props.noindex || import.meta.env.SITE_PREVIEW;
+const { business, location: loc, theme, contact } = site;
+
+const canonical = absolute(canonicalPath);
+const logo = asset(site.images.logo);
+const hero = asset(site.images.hero);
+
+// Imagem de compartilhamento (WhatsApp, Instagram, Facebook): proporção 1,91:1.
+const ogWidth = Math.min(1200, hero.width);
+const ogImage = await getImage({
+  src: hero,
+  width: ogWidth,
+  height: Math.round(ogWidth / 1.91),
+  fit: 'cover',
+  format: 'jpg',
+  quality: 80,
+});
+const favicon32 = await getImage({ src: logo, width: 32, height: 32, format: 'png' });
+const appleIcon = await getImage({ src: logo, width: 180, height: 180, format: 'png' });
+const logoForSchema = await getImage({ src: logo, width: 512, height: 512, format: 'png' });
+
+const schemaDay: Record<string, string> = {
+  mon: 'Monday',
+  tue: 'Tuesday',
+  wed: 'Wednesday',
+  thu: 'Thursday',
+  fri: 'Friday',
+  sat: 'Saturday',
+  sun: 'Sunday',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BarberShop',
+  '@id': `${absolute('')}#barbearia`,
+  name: business.name,
+  ...(business.formerName && { alternateName: business.formerName }),
+  description: site.seo.description,
+  url: absolute('inicio.html'),
+  image: new URL(ogImage.src, Astro.site).href,
+  logo: new URL(logoForSchema.src, Astro.site).href,
+  telephone: `+${contact.whatsappNumber}`,
+  ...(priceRange && { priceRange }),
+  ...(business.foundedYear && { foundingDate: String(business.foundedYear) }),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: loc.street,
+    addressLocality: loc.city,
+    addressRegion: loc.state,
+    postalCode: loc.postalCode,
+    addressCountry: loc.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: loc.lat, longitude: loc.lng },
+  hasMap: links.maps,
+  openingHoursSpecification: dayOrder.flatMap((d) =>
+    (site.hours.week[d] ?? []).map(([opens, closes]) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: schemaDay[d],
+      opens,
+      closes,
+    })),
+  ),
+  potentialAction: {
+    '@type': 'ReserveAction',
+    target: { '@type': 'EntryPoint', urlTemplate: site.booking.url },
+  },
+  sameAs: [contact.instagramUrl, links.reviews].filter(Boolean),
+};
+
+const themeCss = `:root{--accent:${theme.accent};--on-accent:${theme.onAccent};--bg:${theme.bg};--surface:${theme.surface};--text:${theme.text};--muted:${theme.muted}}`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content={import.meta.env.SITE_PREVIEW ? 'noindex, nofollow' : 'noindex'} />}
+    <meta name="theme-color" content={theme.bg} />
+
+    <link rel="icon" type="image/png" sizes="32x32" href={favicon32.src} />
+    <link rel="apple-touch-icon" href={appleIcon.src} />
+    <link rel="preload" href={oswaldLatin} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage.src, Astro.site).href} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content={String(ogImage.attributes.width)} />
+    <meta property="og:image:height" content={String(ogImage.attributes.height)} />
+    <meta property="og:image:alt" content={site.images.heroAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style is:inline set:html={themeCss} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

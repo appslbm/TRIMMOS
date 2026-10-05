@@ -1,0 +1,49 @@
+---
+import { links, site } from '../lib/site';
+import Icon from './Icon.astro';
+---
+
+<section class="section final-cta" aria-labelledby="cta-title">
+  <div class="container final-cta__inner">
+    <h2 id="cta-title">{site.finalCta.title}</h2>
+    <p class="lead">{site.finalCta.text}</p>
+    <div class="final-cta__actions">
+      <a href={links.booking} class="btn btn--primary btn--lg" target="_blank" rel="noopener">
+        <Icon name="calendar" />
+        {site.booking.label}
+      </a>
+      <a href={links.whatsapp} class="btn btn--secondary btn--lg" target="_blank" rel="noopener">
+        <Icon name="whatsapp" />
+        Agendar pelo WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    background: var(--surface);
+  }
+
+  .final-cta__inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--sp-4);
+    text-align: center;
+  }
+
+  .final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+    width: 100%;
+  }
+
+  @media (max-width: 29.99rem) {
+    .final-cta__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

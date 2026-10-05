@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import { asset, site } from '../lib/site';
+
+/** Galeria só faz sentido com fotos reais suficientes. */
+const MIN_PHOTOS = 4;
+const photos = site.gallery;
+---
+
+{
+  photos.length >= MIN_PHOTOS && (
+    <section class="section" id="galeria" aria-labelledby="galeria-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Galeria</p>
+          <h2 id="galeria-title">Cortes e ambiente</h2>
+        </div>
+        <ul
+          class="gallery"
+          role="list"
+          tabindex="0"
+          aria-label="Galeria de fotos (role para ver mais)"
+          style={`--cols: ${photos.length <= 5 ? photos.length : 4}`}
+        >
+          {photos.map((p) => (
+            <li class="gallery__item">
+              <Image
+                src={asset(p.src)}
+                alt={p.alt}
+                width={480}
+                height={600}
+                fit="cover"
+                densities={[1, 2]}
+                loading="lazy"
+                class="gallery__img"
+              />
+              {p.category && <span class="gallery__tag">{p.category}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* Celular e tablet: carrossel com rolagem nativa; desktop: grade */
+  .gallery {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(70%, 18rem);
+    gap: var(--sp-3);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--sp-3);
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+  }
+
+  .gallery__item {
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 64rem) {
+    .gallery {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(var(--cols, 4), 1fr);
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+    }
+  }
+
+  .gallery__item {
+    position: relative;
+  }
+
+  .gallery__tag {
+    position: absolute;
+    left: var(--sp-2);
+    bottom: var(--sp-2);
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 80%, transparent);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+  }
+
+  .gallery__img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+</style>

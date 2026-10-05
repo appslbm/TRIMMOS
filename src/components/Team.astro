@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets';
+import { asset, site } from '../lib/site';
+---
+
+{
+  site.team.length > 0 && (
+    <section class="section" id="equipe" aria-labelledby="equipe-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Equipe</p>
+          <h2 id="equipe-title">Quem cuida do seu visual</h2>
+        </div>
+        <ul class="team" role="list">
+          {site.team.map((m) => (
+            <li class="member">
+              <Image
+                src={asset(m.photo)}
+                alt={m.alt ?? `Foto de ${m.name}`}
+                width={360}
+                height={440}
+                fit="cover"
+                widths={[240, 360]}
+                sizes="(min-width: 64rem) 11rem, (min-width: 30rem) 9rem, 6.5rem"
+                loading="lazy"
+                class="member__photo"
+                style={m.photoPosition ? `object-position: ${m.photoPosition}` : undefined}
+              />
+              <div class="member__head">
+                <h3 class="member__name">{m.name}</h3>
+                {m.role && <p class="member__role">{m.role}</p>}
+              </div>
+              {m.bio && <p class="member__bio">{m.bio}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* Cards horizontais (foto ao lado do texto): compactos no celular, duas colunas a partir do tablet */
+  .team {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  @media (min-width: 48rem) {
+    .team {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-4);
+    }
+  }
+
+  /* Celular: foto + nome lado a lado, apresentação embaixo em largura total */
+  .member {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    grid-template-areas:
+      'photo head'
+      'bio bio';
+    align-items: center;
+    align-content: start;
+    gap: var(--sp-4);
+    height: 100%;
+    padding: var(--sp-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Apresentação ao lado da foto só quando o card é largo:
+     coluna única de 480 a 767px e duas colunas a partir de 1024px */
+  @media (min-width: 30rem) and (max-width: 47.99rem), (min-width: 64rem) {
+    .member {
+      grid-template-columns: 9rem 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        'photo head'
+        'photo bio';
+      align-items: start;
+      padding: var(--sp-5);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .member {
+      grid-template-columns: 11rem 1fr;
+      gap: var(--sp-5);
+    }
+  }
+
+  .member__photo {
+    grid-area: photo;
+    width: 100%;
+    aspect-ratio: 9 / 11;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .member__head {
+    grid-area: head;
+    display: grid;
+    gap: var(--sp-1);
+  }
+
+  .member__role {
+    font-size: var(--fs-sm);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .member__bio {
+    grid-area: bio;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+</style>

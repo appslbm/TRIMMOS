@@ -1,0 +1,157 @@
+---
+import { Image } from 'astro:assets';
+import { asset, fullAddress, hoursSummary, links, site } from '../lib/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+const { business, contact, credit } = site;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Image src={asset(site.images.logo)} alt={site.images.logoAlt} width={64} height={64} densities={[1, 2]} class="site-footer__logo" />
+      <p class="muted">{business.tagline}</p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Contato</h2>
+      <ul class="site-footer__list" role="list">
+        <li>
+          <a href={links.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp {contact.phoneDisplay}</a>
+        </li>
+        {
+          links.instagram && (
+            <li>
+              <a href={links.instagram} target="_blank" rel="noopener">
+                <Icon name="instagram" /> Instagram {contact.instagramHandle}
+              </a>
+            </li>
+          )
+        }
+        <li>
+          <a href={links.booking} target="_blank" rel="noopener"><Icon name="calendar" /> Agendamento online</a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Endereço</h2>
+      <a href={links.directions} target="_blank" rel="noopener" class="site-footer__address">{fullAddress}</a>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Horários</h2>
+      <dl class="site-footer__hours">
+        {
+          hoursSummary().map((g) => (
+            <div>
+              <dt>{g.label}</dt>
+              <dd>{g.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {business.name}{business.formerName && ` (antiga ${business.formerName})`}</p>
+    {credit && <p>{credit.url ? <a href={credit.url}>{credit.text}</a> : credit.text}</p>}
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: var(--sp-8);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  @media (min-width: 40rem) {
+    .site-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .site-footer__grid {
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    }
+  }
+
+  .site-footer__brand {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+  }
+
+  .site-footer__logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
+
+  .site-footer__title {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: var(--sp-3);
+  }
+
+  .site-footer__list {
+    display: grid;
+  }
+
+  .site-footer a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .site-footer__list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 2.75rem;
+  }
+
+  .site-footer__list :global(.icon) {
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .site-footer__hours div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-block: 2px;
+  }
+
+  .site-footer__hours dd {
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-2) var(--sp-5);
+    margin-top: var(--sp-7);
+    padding-block: var(--sp-5);
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: var(--fs-xs);
+  }
+</style>

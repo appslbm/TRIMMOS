@@ -1,0 +1,82 @@
+---
+/** Barra fixa no rodapé do celular: agendar sempre a um toque. */
+import { links, site } from '../lib/site';
+import Icon from './Icon.astro';
+---
+
+<nav class="mobile-bar" aria-label="Ações rápidas">
+  <a href={links.booking} class="btn btn--primary" target="_blank" rel="noopener">
+    <Icon name="calendar" />
+    {site.booking.label}
+  </a>
+  <a href={links.whatsapp} class="btn btn--secondary mobile-bar__wa" target="_blank" rel="noopener">
+    <Icon name="whatsapp" label="WhatsApp" />
+  </a>
+</nav>
+
+<style>
+  .mobile-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--gutter) calc(var(--sp-3) + env(safe-area-inset-bottom));
+    background: color-mix(in oklab, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+  }
+
+  .mobile-bar__wa {
+    width: 3.25rem;
+    padding-inline: 0;
+  }
+
+  .mobile-bar__wa :global(.icon) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  :global(body.has-mobile-bar) {
+    padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 56rem) {
+    .mobile-bar {
+      display: none;
+    }
+
+    :global(body.has-mobile-bar) {
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+<style>
+  .mobile-bar {
+    transition:
+      transform 0.25s ease,
+      visibility 0.25s;
+  }
+
+  .mobile-bar.is-hidden {
+    transform: translateY(110%);
+    visibility: hidden;
+  }
+</style>
+
+<script>
+  // Esconde a barra enquanto os botões do topo estão visíveis (evita botões duplicados na primeira tela).
+  // Sem JavaScript, a barra fica sempre visível.
+  const bar = document.querySelector<HTMLElement>('.mobile-bar');
+  const heroActions = document.querySelector('[data-hero-actions]');
+  if (bar && heroActions && 'IntersectionObserver' in window) {
+    bar.classList.add('is-hidden');
+    new IntersectionObserver(([entry]) => {
+      const heroStillAbove = entry.isIntersecting || entry.boundingClientRect.top > 0;
+      bar.classList.toggle('is-hidden', heroStillAbove);
+    }).observe(heroActions);
+  }
+</script>

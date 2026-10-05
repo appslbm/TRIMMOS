@@ -1,0 +1,325 @@
+---
+import { Image } from 'astro:assets';
+import { asset, dayNames, dayOrder, formatDay, fullAddress, links, phoneNoBreak, site } from '../lib/site';
+import Icon from './Icon.astro';
+import OpenStatus from './OpenStatus.astro';
+
+const { location: loc, hours, contact } = site;
+const hasUnconfirmedHours = Object.values(hours.week).some((d) => d === null);
+---
+
+<section class="section" id="localizacao" aria-labelledby="localizacao-title">
+  <div class="container location">
+    <div class="location__info">
+      <div class="section-head">
+        <p class="eyebrow">Como chegar</p>
+        <h2 id="localizacao-title">Endereço, horários e contato</h2>
+      </div>
+
+      <address class="address">
+        <Icon name="pin" />
+        <span>
+          {loc.street}<br />
+          {loc.neighborhood}, {loc.city} – {loc.state}<br />
+          CEP {loc.postalCode}
+        </span>
+      </address>
+
+      <div class="location__actions">
+        <a href={links.directions} class="btn btn--primary" target="_blank" rel="noopener">
+          <Icon name="navigation" />
+          Como chegar
+        </a>
+        <a href={links.maps} class="btn btn--secondary" target="_blank" rel="noopener">
+          <Icon name="pin" />
+          Ver no Google Maps
+        </a>
+      </div>
+
+      <h3 class="block-title">Contato</h3>
+      <ul class="contact-list" role="list">
+        <li>
+          <a href={links.whatsapp} target="_blank" rel="noopener">
+            <Icon name="whatsapp" />
+            <span><strong>WhatsApp</strong> {contact.phoneDisplay}</span>
+          </a>
+        </li>
+        <li>
+          <a href={links.phone}>
+            <Icon name="phone" />
+            <span><strong>Ligar</strong> {phoneNoBreak}</span>
+          </a>
+        </li>
+        {
+          links.instagram && (
+            <li>
+              <a href={links.instagram} target="_blank" rel="noopener">
+                <Icon name="instagram" />
+                <span><strong>Instagram</strong> {contact.instagramHandle}</span>
+              </a>
+            </li>
+          )
+        }
+      </ul>
+
+      <h3 class="block-title">Horário de funcionamento</h3>
+      <OpenStatus class="hours-status" />
+      <table class="hours">
+        <caption class="visually-hidden">Horário de funcionamento</caption>
+        <tbody>
+          {
+            dayOrder.map((d) => (
+              <tr data-day={d}>
+                <th scope="row">{dayNames[d]}</th>
+                <td class:list={{ 'is-closed': hours.week[d]?.length === 0 }}>{formatDay(hours.week[d])}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      {hours.note && <p class="muted small hours-note">{hours.note}</p>}
+      {
+        hasUnconfirmedHours && !hours.note && (
+          <p class="muted small hours-note">Alguns horários estão sendo confirmados. Na dúvida, chame no WhatsApp.</p>
+        )
+      }
+    </div>
+
+    <div class="location__media">
+      {
+        loc.photo && (
+          <figure>
+            <Image
+              src={asset(loc.photo.src)}
+              alt={loc.photo.alt}
+              widths={[480, 800, Math.min(1200, asset(loc.photo.src).width)]}
+              sizes="(min-width: 56rem) 45vw, 100vw"
+              loading="lazy"
+              class="location__photo"
+            />
+            <figcaption class="muted small">Nossa fachada — {loc.street}.</figcaption>
+          </figure>
+        )
+      }
+
+      {
+        loc.mapEmbedUrl && (
+          <div class="map">
+            <a href={links.maps} class="map__link" target="_blank" rel="noopener" data-map-src={loc.mapEmbedUrl}>
+              <Icon name="pin" class="map__pin" />
+              <span class="map__label">Ver mapa</span>
+              <span class="map__hint">{fullAddress}</span>
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .location {
+    display: grid;
+    gap: var(--sp-7);
+  }
+
+  @media (min-width: 56rem) {
+    .location {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-8);
+    }
+  }
+
+  .address {
+    display: flex;
+    gap: var(--sp-3);
+    font-style: normal;
+    font-size: var(--fs-lg);
+    line-height: 1.5;
+  }
+
+  .address :global(.icon) {
+    color: var(--accent);
+    margin-top: 0.2em;
+  }
+
+  .location__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-5);
+  }
+
+  @media (max-width: 29.99rem) {
+    .location__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+
+  .block-title {
+    margin-top: var(--sp-7);
+    margin-bottom: var(--sp-3);
+  }
+
+  .contact-list {
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .contact-list a {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    min-height: 2.75rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .contact-list a:hover {
+    color: var(--text);
+  }
+
+  .contact-list strong {
+    color: var(--text);
+    font-weight: 600;
+    margin-right: 0.25em;
+  }
+
+  .contact-list :global(.icon) {
+    color: var(--accent);
+  }
+
+  .contact-list :global(.icon-whatsapp) {
+    color: var(--whatsapp);
+  }
+
+  .hours-note {
+    margin-top: var(--sp-3);
+  }
+
+  .location :global(.hours-status) {
+    margin-bottom: var(--sp-3);
+  }
+
+  .hours {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .hours th,
+  .hours td {
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    font-weight: 400;
+  }
+
+  .hours td {
+    text-align: right;
+  }
+
+  .hours .is-closed {
+    color: var(--muted);
+  }
+
+  .hours tr.is-today th,
+  .hours tr.is-today td {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .hours tr.is-today th::after {
+    content: 'hoje';
+    margin-left: var(--sp-2);
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    vertical-align: 1px;
+  }
+
+  .location__media {
+    display: grid;
+    gap: var(--sp-5);
+    align-content: start;
+  }
+
+  .location__photo {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--sp-2);
+  }
+
+  .map {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background:
+      linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 28px 28px,
+      var(--surface);
+  }
+
+  .map__link,
+  .map :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .map__link {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-5);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .map__link:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .map :global(.map__pin) {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--accent);
+  }
+
+  .map__label {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .map__hint {
+    text-wrap: balance;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  // Carrega o Google Maps só quando a pessoa pede (economiza ~1,5 MB).
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-map-src]')) {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const iframe = document.createElement('iframe');
+      iframe.src = link.dataset.mapSrc!;
+      iframe.title = 'Mapa com a localização da barbearia';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      link.replaceWith(iframe);
+    });
+  }
+</script>

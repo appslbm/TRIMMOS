@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets';
+import { asset, site } from '../lib/site';
+import Icon from './Icon.astro';
+import VideoFacade from './VideoFacade.astro';
+
+const { about } = site;
+const photo = about.photos[0];
+---
+
+<section class="section" id="sobre" aria-labelledby="sobre-title">
+  <div class="container about">
+    <div class="about__text">
+      <div class="section-head">
+        <p class="eyebrow">Sobre</p>
+        <h2 id="sobre-title">{about.title}</h2>
+      </div>
+      {about.paragraphs.map((p) => <p class="about__p">{p}</p>)}
+
+      {
+        about.highlights.length > 0 && (
+          <ul class="highlights" role="list">
+            {about.highlights.map((h) => (
+              <li class="highlight">
+                <span class="highlight__icon">
+                  <Icon name="check" />
+                </span>
+                <span>
+                  <strong>{h.title}</strong>
+                  {h.text && <span class="highlight__text">{h.text}</span>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    {
+      (about.video || photo) && (
+        <div class="about__media">
+          {about.video ? (
+            <figure>
+              <VideoFacade id={about.video.youtubeId} title={about.video.title} />
+              {about.video.caption && <figcaption class="about__caption">{about.video.caption}</figcaption>}
+            </figure>
+          ) : (
+            <Image
+              src={asset(photo!.src)}
+              alt={photo!.alt}
+              widths={[480, 800]}
+              sizes="(min-width: 56rem) 50vw, 100vw"
+              class="about__photo"
+            />
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--sp-7);
+  }
+
+  @media (min-width: 56rem) {
+    .about {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: var(--sp-8);
+    }
+  }
+
+  .about__text .section-head {
+    margin-bottom: var(--sp-5);
+  }
+
+  .about__p {
+    color: var(--muted);
+    font-size: var(--fs-lg);
+  }
+
+  .about__p + .about__p {
+    margin-top: var(--sp-4);
+  }
+
+  .highlights {
+    display: grid;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+  }
+
+  @media (min-width: 36rem) {
+    .highlights {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .highlight {
+    display: flex;
+    gap: var(--sp-3);
+    line-height: 1.4;
+  }
+
+  .highlight__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .highlight__icon :global(.icon) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .highlight strong {
+    display: block;
+    font-weight: 600;
+  }
+
+  .highlight__text {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .about__caption {
+    margin-top: var(--sp-3);
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .about__photo {
+    width: 100%;
+    border-radius: var(--radius-lg);
+  }
+</style>

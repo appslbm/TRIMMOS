@@ -1,0 +1,13 @@
+import type { APIRoute } from 'astro';
+import { absolute } from '../lib/site';
+
+const pages = [
+  { loc: absolute('inicio.html'), priority: '1.0' },
+  { loc: absolute(''), priority: '0.8' },
+];
+
+export const GET: APIRoute = () => {
+  const urls = pages.map((p) => `  <url><loc>${p.loc}</loc><priority>${p.priority}</priority></url>`).join('\n');
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });
+};

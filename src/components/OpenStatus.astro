@@ -1,0 +1,116 @@
+---
+/**
+ * "Aberto agora · fecha às 18h" — calculado no navegador, no fuso da barbearia.
+ * Sem JavaScript o elemento continua oculto (os horários aparecem em outro lugar).
+ */
+import { hoursData } from '../lib/site';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<p class:list={['open-status', className]} data-hours={hoursData} hidden>
+  <span class="open-status__dot" aria-hidden="true"></span>
+  <span class="open-status__text"></span>
+</p>
+
+<style>
+  .open-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+  .open-status[hidden] {
+    display: none;
+  }
+  .open-status__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--muted);
+    flex: none;
+  }
+  .open-status.is-open {
+    color: var(--text);
+  }
+  .open-status.is-open .open-status__dot {
+    background: var(--ok);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ok) 25%, transparent);
+  }
+</style>
+
+<script>
+  type Interval = [string, string];
+  type Week = Record<string, Interval[] | null>;
+
+  const KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const NAMES: Record<string, string> = {
+    sun: 'domingo',
+    mon: 'segunda',
+    tue: 'terça',
+    wed: 'quarta',
+    thu: 'quinta',
+    fri: 'sexta',
+    sat: 'sábado',
+  };
+  const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
+  const fmt = (t: string) => `${Number(t.slice(0, 2))}h${t.slice(3) === '00' ? '' : t.slice(3)}`;
+
+  /** Dia da semana (0–6) e minutos desde 00:00 no fuso informado. */
+  function nowIn(tz: string) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz,
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+    const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+    return { day, min: Number(get('hour')) * 60 + Number(get('minute')) };
+  }
+
+  function openStatus(week: Week, tz: string) {
+    const { day, min } = nowIn(tz);
+    const today = week[KEYS[day]];
+    if (today === null) return null;
+
+    const current = today.find(([a, b]) => min >= toMin(a) && min < toMin(b));
+    if (current) return { open: true, text: `Aberto agora · fecha às ${fmt(current[1])}` };
+
+    const laterToday = today.find(([a]) => toMin(a) > min);
+    if (laterToday) return { open: false, text: `Fechado agora · abre hoje às ${fmt(laterToday[0])}` };
+
+    for (let i = 1; i <= 7; i++) {
+      const key = KEYS[(day + i) % 7];
+      const intervals = week[key];
+      if (intervals === null) return { open: false, text: 'Fechado agora' };
+      if (intervals.length) {
+        const when = i === 1 ? 'amanhã' : NAMES[key];
+        return { open: false, text: `Fechado agora · abre ${when} às ${fmt(intervals[0][0])}` };
+      }
+    }
+    return null;
+  }
+
+  for (const el of document.querySelectorAll<HTMLElement>('.open-status[data-hours]')) {
+    try {
+      const { tz, week } = JSON.parse(el.dataset.hours!) as { tz: string; week: Week };
+      // Destaca o dia de hoje na tabela de horários (mesmo quando o horário do dia está "A confirmar").
+      const today = KEYS[nowIn(tz).day];
+      document.querySelectorAll(`[data-day="${today}"]`).forEach((row) => row.classList.add('is-today'));
+      // Sem horário confirmado para hoje, não afirma se está aberto ou fechado.
+      const status = openStatus(week, tz);
+      if (!status) continue;
+      el.querySelector('.open-status__text')!.textContent = status.text;
+      el.classList.toggle('is-open', status.open);
+      el.hidden = false;
+    } catch {
+      /* mantém oculto */
+    }
+  }
+</script>

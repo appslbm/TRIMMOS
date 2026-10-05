@@ -1,0 +1,41 @@
+---
+import Icon from '../components/Icon.astro';
+import Base from '../layouts/Base.astro';
+import { links, path, site } from '../lib/site';
+---
+
+<Base title={`Página não encontrada · ${site.business.name}`} description={site.seo.description} canonicalPath="404.html" noindex>
+  <main class="not-found container">
+    <p class="eyebrow">Erro 404</p>
+    <h1>Página não encontrada</h1>
+    <p class="lead">O endereço pode ter mudado. Escolha um caminho abaixo:</p>
+    <div class="not-found__actions">
+      <a href={links.booking} class="btn btn--primary" target="_blank" rel="noopener"><Icon name="calendar" /> {site.booking.label}</a>
+      <a href={path('inicio.html')} class="btn btn--secondary">Ir para o site</a>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .not-found {
+    min-height: 100dvh;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: var(--sp-4);
+    text-align: center;
+    padding-block: var(--sp-8);
+  }
+
+  .not-found h1 {
+    font-size: var(--fs-h2);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+  }
+</style>
