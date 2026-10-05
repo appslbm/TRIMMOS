@@ -111,7 +111,7 @@ export default defineSite({
         name: 'Barba',
         items: [
           { name: 'Barba expressa', duration: 30, price: 35, featured: true },
-          { name: 'Barboterapia', duration: 45, price: 50, featured: true },
+          { name: 'Barboterapia', duration: 45, price: 45, featured: true },
           { name: 'Barba + acabamento', duration: 45, price: 50 },
         ],
       },
@@ -312,6 +312,6 @@ export default defineSite({
   },
 
   credit: {
-    text: 'Site por Lucas Marques & Bruno Marques',
+    text: 'Site por Marques & Marques',
   },
 });
