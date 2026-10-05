@@ -19,30 +19,27 @@ node -v
 > [!warning] Situação temporária: até a modernização ser aprovada e entrar na `main`
 > A `main` do `appslbm/TRIMMOS` ainda contém a **versão anterior** do site (HTML/CSS estático, sem `package.json`). Nela, `npm install` e os demais comandos `npm` desta nota **não funcionam**.
 >
-> O código modernizado está na branch **`feature/modernizacao-site`**. Esta documentação (`docs/`) está na branch **`docs/obsidian-vault`**, criada a partir dela.
+> A branch **`docs/obsidian-vault`** está **publicada no GitHub** (`appslbm/TRIMMOS`) e contém o **código modernizado + esta documentação do Obsidian**. É a branch que deve ser usada em um clone novo do repositório.
 
 ### Onde está cada versão (conferido em 2026-10-04)
 
 | Local | Conteúdo |
 |---|---|
 | `appslbm/TRIMMOS` → `main` | Versão anterior, **em produção** |
-| `appslbm/TRIMMOS-preview` → `main` | Código modernizado (mesmo commit da `feature/modernizacao-site`), **sem** a pasta `docs/` |
-| `feature/modernizacao-site` | Código modernizado. **Ainda não enviada ao GitHub**: existe só no computador onde a modernização foi feita |
-| `docs/obsidian-vault` | Código modernizado + esta documentação. **Ainda não enviada ao GitHub** |
+| `appslbm/TRIMMOS` → `docs/obsidian-vault` | Código modernizado + documentação do Obsidian (`docs/`). **Publicada no GitHub. Use esta branch em um clone novo** |
+| `appslbm/TRIMMOS-preview` → `main` | Código modernizado, **sem** a pasta `docs/`. Publica a versão de demonstração |
+| `feature/modernizacao-site` | Branch **somente local** (computador onde a modernização foi feita). **Não está publicada no GitHub**: não use em um clone novo |
 
-### Para trabalhar na versão modernizada agora
-
-Depois que as branches da modernização forem enviadas ao `appslbm/TRIMMOS`:
+### Para trabalhar na versão modernizada agora (novo colaborador)
 
 ```bash
 git clone https://github.com/appslbm/TRIMMOS.git
 cd TRIMMOS
-git switch feature/modernizacao-site   # código
-# ou: git switch docs/obsidian-vault    # documentação
+git switch docs/obsidian-vault
 npm install
 ```
 
-Enquanto elas não estiverem no GitHub, combine com quem tem a cópia local antes de começar.
+Depois, no Obsidian, use **Abrir pasta como vault** (*Open folder as vault*) e selecione a pasta **`TRIMMOS/docs`**. Comece pela nota [[00 - Início]].
 
 O repositório `appslbm/TRIMMOS-preview` pode ser clonado **só para consulta ou teste local** do código modernizado. Não faça push nele sem combinar: cada push na `main` do `TRIMMOS-preview` publica a versão de demonstração.
 
