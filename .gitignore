@@ -4,3 +4,10 @@ dist/
 *.log
 .DS_Store
 dist-*/
+
+# Obsidian (docs/ é o Vault): compartilhar só a configuração mínima;
+# layout de janelas, cache e lixeira são pessoais de cada computador.
+docs/.obsidian/workspace*.json
+docs/.obsidian/cache
+docs/.obsidian/plugins/
+docs/.trash/
