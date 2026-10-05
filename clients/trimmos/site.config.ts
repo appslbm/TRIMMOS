@@ -178,7 +178,7 @@ export default defineSite({
         value: 5,
         scale: 5,
         count: 319,
-        url: 'https://www.google.com/maps/place/?q=place_id:ChIJReC7t3Bnv5QRZ158wsvoZBc',
+        url: 'https://search.google.com/local/reviews?placeid=ChIJReC7t3Bnv5QRZ158wsvoZBc',
         checkedAt: '2026-10-04',
       },
       // [FZ] "10,0 (189 avaliações)"
@@ -295,8 +295,11 @@ export default defineSite({
     logo: 'logo.png',
     logoAlt: 'Logo da Trimmos Barbearia',
     hero: 'ambiente.jpg',
-    heroAlt: 'Interior da Trimmos Barbearia, com cadeiras de couro caramelo e parede de tijolos',
-    heroPosition: 'center 60%',
+    // [DONO] foto atual do interior, enviada pelo proprietário (vertical, 1080×1921)
+    heroAlt:
+      'Interior da Trimmos Barbearia, com cadeiras de couro caramelo enfileiradas, bancadas de madeira, espelhos e parede cinza',
+    // Foto vertical: o recorte central mostra espelhos, bancadas e a fileira de cadeiras no celular e no desktop.
+    heroPosition: 'center',
   },
 
   linkPage: {

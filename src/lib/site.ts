@@ -59,8 +59,10 @@ export const links = {
   directions: placeId
     ? `https://www.google.com/maps/dir/?api=1&destination=${addressQuery}&destination_place_id=${placeId}`
     : `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`,
+  // Abre direto nas avaliações: no desktop, a busca do Google com o painel de avaliações; no celular,
+  // o visualizador de avaliações. (O antigo maps/place/?q=place_id:... não abre a ficha no app do Maps.)
   reviews:
-    reviews.url ?? (placeId ? `https://www.google.com/maps/place/?q=place_id:${placeId}` : undefined),
+    reviews.url ?? (placeId ? `https://search.google.com/local/reviews?placeid=${placeId}` : undefined),
   writeReview:
     reviews.writeUrl ?? (placeId ? `https://search.google.com/local/writereview?placeid=${placeId}` : undefined),
   site: path('inicio.html'),
