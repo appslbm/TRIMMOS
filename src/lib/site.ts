@@ -94,11 +94,12 @@ export const primaryRating = site.reviews.ratings[0];
 
 export const formatPrice = (price: number | null) => (price === null ? 'Sob consulta' : brl.format(price));
 
+/** 30 → "30min", 60 → "1h", 90 → "1h 30min" */
 export function formatDuration(min: number) {
   const h = Math.floor(min / 60);
   const m = min % 60;
-  if (!h) return `${m} min`;
-  return m ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`;
+  if (!h) return `${m}min`;
+  return m ? `${h}h ${m}min` : `${h}h`;
 }
 
 /** Telefone que não quebra linha no meio (espaço e hífen inseparáveis). */

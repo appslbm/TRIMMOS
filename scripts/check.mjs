@@ -90,10 +90,17 @@ if (!problems) console.log('  ✓ todos os links internos e âncoras existem');
 /* 3. Links externos (opcional) ----------------------------------------- */
 if (checkExternal) {
   console.log('\n3. Links externos');
+  // Cabeçalhos de navegador real: alguns serviços respondem diferente a robôs
+  // (ex.: search.google.com/local/reviews dá 404 para robôs e 200 para navegadores).
+  const browserHeaders = {
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'accept-language': 'pt-BR,pt;q=0.9,en;q=0.8',
+  };
   for (const [url, page] of external) {
     const full = url.startsWith('//') ? `https:${url}` : url;
     try {
-      const res = await fetch(full, { redirect: 'follow', headers: { 'user-agent': 'Mozilla/5.0 (link-check)' } });
+      const res = await fetch(full, { redirect: 'follow', headers: browserHeaders });
       const ok = res.status < 400 || [403, 429].includes(res.status); // Instagram/Google às vezes bloqueiam robôs
       console.log(`  ${ok ? '✓' : '✗'} ${res.status} ${full.slice(0, 110)}`);
       if (!ok) problems++;
