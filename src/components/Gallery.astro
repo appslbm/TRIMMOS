@@ -20,7 +20,7 @@ const photos = site.gallery;
           role="list"
           tabindex="0"
           aria-label="Galeria de fotos (role para ver mais)"
-          style={`--cols: ${photos.length <= 5 ? photos.length : 4}`}
+          style={`--cols: ${photos.length === 6 ? 3 : photos.length <= 5 ? photos.length : 4}`}
         >
           {photos.map((p) => (
             <li class="gallery__item">

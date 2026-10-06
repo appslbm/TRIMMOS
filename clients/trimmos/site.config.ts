@@ -277,12 +277,29 @@ export default defineSite({
   // [IG] [DONO] Fotos de publicações oficiais, autorizadas pelo proprietário.
   // A foto do freestyle (https://www.instagram.com/p/DYI0h_5AlD7/) NÃO foi incluída:
   // mostra uma criança e exige consentimento específico dos pais/responsável (LGPD, art. 14).
+  // As fotos de corte com fundo laranja (low-fade, taper-fade, jit-fade) foram retiradas do site em 05/10/2026.
   gallery: [
-    { src: 'galeria/low-fade.jpg', alt: 'Cliente com corte low fade, de perfil, em fundo laranja', category: 'Low fade' },
-    { src: 'galeria/taper-fade.jpg', alt: 'Cliente de cabelo cacheado ruivo com taper fade, em fundo laranja', category: 'Taper fade' },
-    { src: 'galeria/jit-fade.jpg', alt: 'Cliente com corte jit fade, de perfil, em fundo laranja', category: 'Jit fade' },
     { src: 'galeria/tiago-em-acao.jpg', alt: 'Barbeiro Tiago Hunziker cortando o cabelo de um cliente', category: 'Em ação' },
     { src: 'galeria/produtos.jpg', alt: 'Prateleira com produtos masculinos à venda na barbearia', category: 'Produtos' },
+    // [DONO] fotos enviadas pelo proprietário
+    { src: 'galeria/fachada-noite.jpg', alt: 'Fachada da Trimmos Barbearia iluminada durante a noite', category: 'Fachada' },
+    {
+      src: 'galeria/interior-entrada.jpg',
+      alt: 'Interior da Trimmos Barbearia com cadeiras, geladeira de bebidas, balcão e entrada envidraçada',
+      category: 'Ambiente',
+    },
+    // [IG] https://www.instagram.com/p/DPtwQYkjfe6/
+    {
+      src: 'galeria/cantinho-do-cafe.jpg',
+      alt: 'Cantinho do café da Trimmos Barbearia, com letreiro neon "Café", máquinas de café sobre bancada de madeira e porta de vidro para a rua',
+      category: 'Café',
+    },
+    // [IG] https://www.instagram.com/p/DF5fxDGuiN8/
+    {
+      src: 'galeria/interior-cadeiras.jpg',
+      alt: 'Interior da Trimmos Barbearia com cadeiras de couro marrom enfileiradas, bancadas de madeira, espelhos e entrada de vidro',
+      category: 'Ambiente',
+    },
   ],
 
   finalCta: {
