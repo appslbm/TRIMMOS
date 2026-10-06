@@ -1,11 +1,11 @@
 ---
 /**
  * URL antiga /services.html — mantida para não quebrar links já compartilhados.
- * Redireciona para a seção de serviços do site.
+ * Redireciona para o site (a seção de serviços foi removida; o agendamento fica no aplicativo).
  */
 import { path, site } from '../lib/site';
 
-const target = path('inicio.html#servicos');
+const target = path('inicio.html');
 ---
 
 <!doctype html>
@@ -13,13 +13,13 @@ const target = path('inicio.html#servicos');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Serviços e preços · {site.business.name}</title>
+    <title>{site.business.name}</title>
     <meta name="robots" content="noindex" />
     <link rel="canonical" href={new URL(target, import.meta.env.SITE ?? site.deploy.site).href} />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <script is:inline define:vars={{ target }}>location.replace(target);</script>
   </head>
   <body>
-    <p><a href={target}>Ver serviços e preços da {site.business.name}</a></p>
+    <p><a href={target}>Ir para o site da {site.business.name}</a></p>
   </body>
 </html>

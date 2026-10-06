@@ -1,7 +1,7 @@
 # Site vitrine para barbearias
 
 Template de site estático para barbearias: **página de links** ("link na bio") + **site de apresentação**
-(serviços, avaliações, sobre, localização e horários). O agendamento continua no sistema externo da
+(equipe, avaliações, sobre, localização e horários). O agendamento continua no sistema externo da
 barbearia (Frizzar, Trinks, AppBarber...). Sem backend, sem banco de dados, hospedagem gratuita.
 
 Cliente atual: **Trimmos Barbearia** (antiga Barbearia Hunziker) — Bauru/SP.
@@ -9,8 +9,8 @@ Cliente atual: **Trimmos Barbearia** (antiga Barbearia Hunziker) — Bauru/SP.
 | Página | URL | Para quê |
 |---|---|---|
 | Links | `/index.html` | Porta de entrada de quem vem do Instagram/WhatsApp |
-| Site | `/inicio.html` | Serviços, preços, avaliações, endereço e horários |
-| `/services.html` | redireciona para `/inicio.html#servicos` | Mantém links antigos funcionando |
+| Site | `/inicio.html` | Avaliações, endereço e horários (serviços e preços ficam no app de agendamento) |
+| `/services.html` | redireciona para `/inicio.html` | Mantém links antigos funcionando |
 
 ## Como funciona
 

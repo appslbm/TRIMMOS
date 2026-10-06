@@ -92,16 +92,6 @@ export const formatRating = (value: number) =>
 /** Nota exibida no topo do site (a primeira da lista). */
 export const primaryRating = site.reviews.ratings[0];
 
-export const formatPrice = (price: number | null) => (price === null ? 'Sob consulta' : brl.format(price));
-
-/** 30 → "30min", 60 → "1h", 90 → "1h 30min" */
-export function formatDuration(min: number) {
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  if (!h) return `${m}min`;
-  return m ? `${h}h ${m}min` : `${h}h`;
-}
-
 /** Telefone que não quebra linha no meio (espaço e hífen inseparáveis). */
 export const phoneNoBreak = contact.phoneDisplay.replace(/ /g, '\u00A0').replace(/-/g, '\u2011');
 
@@ -178,7 +168,6 @@ export const hoursData = JSON.stringify({ tz: site.hours.timezone, week: site.ho
 /* ------------------------------------------------------------------ */
 
 export const allServices = site.services.categories.flatMap((c) => c.items);
-export const featuredServices = allServices.filter((s) => s.featured);
 
 const prices = allServices.map((s) => s.price).filter((p): p is number => p !== null);
 export const priceRange = prices.length ? `${brl.format(Math.min(...prices))} – ${brl.format(Math.max(...prices))}` : undefined;
