@@ -253,6 +253,8 @@ export default defineSite({
   // [IG] [DONO] Profissionais confirmados — publicações oficiais de apresentação:
   //   https://www.instagram.com/p/DBY8hE4uYON/ (Tiago Hunziker)
   //   https://www.instagram.com/p/DBeHKH4ubVE/ (Matheus Tsucada)
+  //   https://www.instagram.com/p/DfmZ_RwJeDn/ (Vinicius Rocha Santos — a publicação traz só nome
+  //   e cargo, sem apresentação; por isso o cartão não tem bio)
   // Cargo e apresentação conforme o texto das próprias publicações. Fotos recortadas das artes
   // (somente o retrato), com autorização do proprietário.
   team: [
@@ -270,6 +272,13 @@ export default defineSite({
       bio: 'Apaixonado por estilos e detalhes. Sua missão é oferecer a melhor experiência de barbearia que você poderia ter.',
       photo: 'equipe/matheus-tsucada.jpg',
       alt: 'Matheus Tsucada, barbeiro da Trimmos Barbearia',
+      photoPosition: 'center top',
+    },
+    {
+      name: 'Vinicius Rocha Santos',
+      role: 'Barbeiro',
+      photo: 'equipe/vinicius-rocha-santos.jpg',
+      alt: 'Vinicius Rocha Santos, barbeiro da Trimmos Barbearia',
       photoPosition: 'center top',
     },
   ],
