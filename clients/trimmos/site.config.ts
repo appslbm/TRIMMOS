@@ -277,7 +277,7 @@ export default defineSite({
     {
       name: 'Vinicius Rocha Santos',
       role: 'Barbeiro',
-      bio: 'Barbeiro por amor e vocação, atencioso, detalhista e apaixonado pela arte de transformar estilos. Sua missão é oferecer mais que cortes: transformar estilos, elevar a autoestima e criar experiências em cada atendimento, unindo técnica, paixão e dedicação pela barbearia.',
+      bio: 'Atencioso, detalhista e apaixonado por transformar estilos. Sua missão é elevar a autoestima e proporcionar uma experiência especial em cada atendimento.',
       photo: 'equipe/vinicius-rocha-santos.jpg',
       alt: 'Vinicius Rocha Santos, barbeiro da Trimmos Barbearia',
       photoPosition: 'center top',
